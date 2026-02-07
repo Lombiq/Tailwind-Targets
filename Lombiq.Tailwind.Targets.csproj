@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefaultItemExcludes>$(DefaultItemExcludes);.git*;node_modules/**</DefaultItemExcludes>
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Lombiq Tailwind MSBuild Targets</Title>
+    <Authors>Lombiq Technologies</Authors>
+    <Copyright>Copyright © 2026, Lombiq Technologies Ltd.</Copyright>
+    <Description>Lombiq Tailwind MSBuild Targets: Automatically run Tailwind CSS during .NET builds. See Readme.md for usage.</Description>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
+    <PackageTags>Lombiq;Tailwind;MSBuild;Orchard Core</PackageTags>
+    <RepositoryUrl>https://github.com/Lombiq</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Lombiq</PackageProjectUrl>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Readme.md" />
+    <None Include="NuGetIcon.png" Pack="true" PackagePath="" />
+    <None Include="build/**" Pack="true" PackagePath="build/" />
+    <None Include="*.props" Pack="true" PackagePath="" />
+    <None Include="*.targets" Pack="true" PackagePath="" />
+    <None Remove="node_modules/**" />
+  </ItemGroup>
+
+</Project>

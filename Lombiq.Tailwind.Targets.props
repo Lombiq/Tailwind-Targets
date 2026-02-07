@@ -1,0 +1,83 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <TailwindRunOnBuild Condition="'$(TailwindRunOnBuild)' == ''">true</TailwindRunOnBuild>
+    <TailwindWorkingDirectory Condition="'$(TailwindWorkingDirectory)' == ''">$(MSBuildProjectDirectory)</TailwindWorkingDirectory>
+
+    <TailwindInput Condition="'$(TailwindInput)' == ''">Assets/Styles/site.css</TailwindInput>
+    <TailwindOutput Condition="'$(TailwindOutput)' == '' AND '$(Configuration)' == 'Release'">wwwroot/css/site.min.css</TailwindOutput>
+    <TailwindOutput Condition="'$(TailwindOutput)' == ''">wwwroot/css/site.css</TailwindOutput>
+
+    <TailwindMinify Condition="'$(TailwindMinify)' == '' AND '$(Configuration)' == 'Release'">true</TailwindMinify>
+    <TailwindMinify Condition="'$(TailwindMinify)' == '' AND '$(Configuration)' != 'Release'">false</TailwindMinify>
+
+    <TailwindConfigFile Condition="'$(TailwindConfigFile)' == ''">tailwind.config.js</TailwindConfigFile>
+
+    <TailwindCliVersion Condition="'$(TailwindCliVersion)' == ''">v4.1.18</TailwindCliVersion>
+    <TailwindCliVersionForDownload
+      Condition="'$(TailwindCliVersionForDownload)' == '' AND $([System.String]::Copy('$(TailwindCliVersion)').StartsWith('v'))">$(TailwindCliVersion)</TailwindCliVersionForDownload>
+    <TailwindCliVersionForDownload Condition="'$(TailwindCliVersionForDownload)' == ''">v$(TailwindCliVersion)</TailwindCliVersionForDownload>
+    <TailwindCliVersionNormalized
+      Condition="'$(TailwindCliVersionNormalized)' == ''">$([System.String]::Copy('$(TailwindCliVersionForDownload)').Replace('.', '_'))</TailwindCliVersionNormalized>
+
+    <TailwindCliOs
+      Condition="'$(TailwindCliOs)' == '' AND $([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">windows</TailwindCliOs>
+    <TailwindCliOs
+      Condition="'$(TailwindCliOs)' == '' AND $([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">linux</TailwindCliOs>
+    <TailwindCliOs
+      Condition="'$(TailwindCliOs)' == '' AND $([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">macos</TailwindCliOs>
+
+    <TailwindCliArch
+      Condition="'$(TailwindCliArch)' == ''">$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture.ToString().ToLowerInvariant())</TailwindCliArch>
+
+    <TailwindCliExtension Condition="'$(TailwindCliExtension)' == '' AND '$(TailwindCliOs)' == 'windows'">.exe</TailwindCliExtension>
+    <TailwindCliExtension Condition="'$(TailwindCliExtension)' == ''"></TailwindCliExtension>
+
+    <TailwindCliFileName
+      Condition="'$(TailwindCliFileName)' == ''">tailwindcss-$(TailwindCliOs)-$(TailwindCliArch)$(TailwindCliExtension)</TailwindCliFileName>
+    <TailwindCliLocalFileName
+      Condition="'$(TailwindCliLocalFileName)' == ''">tailwindcss-$(TailwindCliOs)-$(TailwindCliArch)-$(TailwindCliVersionNormalized)$(TailwindCliExtension)</TailwindCliLocalFileName>
+    <TailwindCliDownloadUrl Condition="'$(TailwindCliDownloadUrl)' == ''">https://github.com/tailwindlabs/tailwindcss/releases/download/$(TailwindCliVersionForDownload)/$(TailwindCliFileName)</TailwindCliDownloadUrl>
+
+    <TailwindCliCacheDirectory Condition="'$(TailwindCliCacheDirectory)' == ''">$(BaseIntermediateOutputPath)tailwind</TailwindCliCacheDirectory>
+    <TailwindCliDownload Condition="'$(TailwindCliDownload)' == ''">true</TailwindCliDownload>
+
+    <TailwindWatchMode Condition="'$(TailwindWatchMode)' == ''">always</TailwindWatchMode>
+
+    <TailwindContentGlobsDefault>$(MSBuildProjectDirectory)/**/*.cshtml;$(MSBuildProjectDirectory)/**/*.liquid;$(MSBuildProjectDirectory)/**/*.js;$(MSBuildProjectDirectory)/**/*.ts</TailwindContentGlobsDefault>
+    <TailwindContentGlobs Condition="'$(TailwindContentGlobs)' == ''">$(TailwindContentGlobsDefault)</TailwindContentGlobs>
+    <TailwindContentGlobsAdditional Condition="'$(TailwindContentGlobsAdditional)' == ''"></TailwindContentGlobsAdditional>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TailwindInputPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindInput)'))">$(TailwindInput)</TailwindInputPath>
+    <TailwindInputPath Condition="'$(TailwindInputPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindInput)'))</TailwindInputPath>
+
+    <TailwindOutputPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPath>
+    <TailwindOutputPath Condition="'$(TailwindOutputPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPath>
+
+    <TailwindConfigPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindConfigFile)'))">$(TailwindConfigFile)</TailwindConfigPath>
+    <TailwindConfigPath Condition="'$(TailwindConfigPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindConfigFile)'))</TailwindConfigPath>
+
+    <TailwindCliCacheDirectoryPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindCliCacheDirectory)'))">$(TailwindCliCacheDirectory)</TailwindCliCacheDirectoryPath>
+    <TailwindCliCacheDirectoryPath Condition="'$(TailwindCliCacheDirectoryPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindCliCacheDirectory)'))</TailwindCliCacheDirectoryPath>
+
+    <TailwindCliPath Condition="'$(TailwindCliPath)' == ''">$([System.IO.Path]::Combine('$(TailwindCliCacheDirectoryPath)', '$(TailwindCliLocalFileName)'))</TailwindCliPath>
+    <TailwindCliTempPath Condition="'$(TailwindCliTempPath)' == ''">$(TailwindCliPath).tmp</TailwindCliTempPath>
+
+    <TailwindOutputDir>$([System.IO.Path]::GetDirectoryName('$(TailwindOutputPath)'))</TailwindOutputDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TailwindConfigArgument Condition="Exists('$(TailwindConfigPath)')">--config &quot;$(TailwindConfigPath)&quot;</TailwindConfigArgument>
+    <TailwindMinifyArgument Condition="'$(TailwindMinify)' == 'true'">--minify</TailwindMinifyArgument>
+
+    <TailwindAdditionalArguments Condition="'$(TailwindAdditionalArguments)' == ''"></TailwindAdditionalArguments>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'@(TailwindContentFiles)' == ''">
+    <TailwindContentFiles Include="$(TailwindContentGlobs)" />
+    <TailwindContentFiles Include="$(TailwindContentGlobsAdditional)" Condition="'$(TailwindContentGlobsAdditional)' != ''" />
+  </ItemGroup>
+
+</Project>

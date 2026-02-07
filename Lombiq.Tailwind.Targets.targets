@@ -1,0 +1,81 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <TailwindBuildArguments>-i &quot;$(TailwindInputPath)&quot; -o &quot;$(TailwindOutputPath)&quot; $(TailwindConfigArgument) $(TailwindMinifyArgument) $(TailwindAdditionalArguments)</TailwindBuildArguments>
+    <TailwindBuildCommand Condition="'$(TailwindBuildCommand)' == ''">&quot;$(TailwindCliPath)&quot; $(TailwindBuildArguments)</TailwindBuildCommand>
+
+    <TailwindWatchModeArgument Condition="'$(TailwindWatchMode)' != ''">--watch=$(TailwindWatchMode)</TailwindWatchModeArgument>
+    <TailwindWatchModeArgument Condition="'$(TailwindWatchModeArgument)' == ''">--watch</TailwindWatchModeArgument>
+    <TailwindWatchPollArgument Condition="'$(TailwindWatchPoll)' == 'true'">--poll</TailwindWatchPollArgument>
+    <TailwindWatchArguments>-i &quot;$(TailwindInputPath)&quot; -o &quot;$(TailwindOutputPath)&quot; $(TailwindWatchModeArgument) $(TailwindWatchPollArgument) $(TailwindConfigArgument) $(TailwindAdditionalArguments)</TailwindWatchArguments>
+    <TailwindWatchCommand Condition="'$(TailwindWatchCommand)' == ''">&quot;$(TailwindCliPath)&quot; $(TailwindWatchArguments)</TailwindWatchCommand>
+
+    <TailwindDownloadCommand
+      Condition="'$(TailwindDownloadCommand)' == '' AND '$(TailwindCliOs)' == 'windows'">powershell -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri '$(TailwindCliDownloadUrl)' -OutFile '$(TailwindCliTempPath)'"</TailwindDownloadCommand>
+    <TailwindDownloadCommand
+      Condition="'$(TailwindDownloadCommand)' == ''">curl -L -o &quot;$(TailwindCliTempPath)&quot; &quot;$(TailwindCliDownloadUrl)&quot;</TailwindDownloadCommand>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <TailwindInputs Include="$(TailwindInputPath)" Condition="Exists('$(TailwindInputPath)')" />
+    <TailwindInputs Include="$(TailwindConfigPath)" Condition="Exists('$(TailwindConfigPath)')" />
+    <TailwindInputs Include="@(TailwindContentFiles)" />
+    <TailwindInputs Include="$(TailwindCliPath)" Condition="Exists('$(TailwindCliPath)')" />
+  </ItemGroup>
+
+  <Target
+    Name="TailwindValidate"
+    Condition="Exists('$(TailwindInputPath)')">
+    <Error Condition="'$(TailwindCliOs)' == ''" Text="TailwindCliOs is not set. Set TailwindCliOs to windows, linux, or macos." />
+    <Error Condition="'$(TailwindCliArch)' == ''" Text="TailwindCliArch is not set. Set TailwindCliArch to x64 or arm64." />
+    <Error
+      Condition="'$(TailwindCliArch)' != 'x64' AND '$(TailwindCliArch)' != 'arm64'"
+      Text="Unsupported Tailwind CLI architecture: $(TailwindCliArch). Set TailwindCliArch to x64 or arm64." />
+  </Target>
+
+  <Target
+    Name="TailwindDownload"
+    DependsOnTargets="TailwindValidate"
+    Condition="Exists('$(TailwindInputPath)')">
+    <Error
+      Condition="'$(TailwindCliDownload)' != 'true' AND !Exists('$(TailwindCliPath)')"
+      Text="TailwindCliDownload is disabled and Tailwind CLI was not found at $(TailwindCliPath)." />
+    <MakeDir Directories="$(TailwindCliCacheDirectoryPath)" Condition="'$(TailwindCliCacheDirectoryPath)' != '' AND !Exists('$(TailwindCliCacheDirectoryPath)')" />
+    <Message
+      Text="Downloading Tailwind CLI from $(TailwindCliDownloadUrl)."
+      Importance="low"
+      Condition="'$(TailwindCliDownload)' == 'true' AND !Exists('$(TailwindCliPath)')" />
+    <Delete Files="$(TailwindCliTempPath)" Condition="Exists('$(TailwindCliTempPath)')" />
+    <Exec
+      Command="$(TailwindDownloadCommand)"
+      Condition="'$(TailwindCliDownload)' == 'true' AND !Exists('$(TailwindCliPath)')" />
+    <Move
+      SourceFiles="$(TailwindCliTempPath)"
+      DestinationFiles="$(TailwindCliPath)"
+      Condition="Exists('$(TailwindCliTempPath)') AND !Exists('$(TailwindCliPath)')" />
+    <Exec
+      Command="chmod +x &quot;$(TailwindCliPath)&quot;"
+      Condition="Exists('$(TailwindCliPath)') AND '$(TailwindCliOs)' != 'windows'" />
+  </Target>
+
+  <Target
+    Name="TailwindBuild"
+    DependsOnTargets="TailwindDownload"
+    BeforeTargets="EmbeddModuleAssets;OrchardCoreEmbedModuleAssets;Compile"
+    Inputs="@(TailwindInputs)"
+    Outputs="$(TailwindOutputPath)"
+    Condition="'$(TailwindRunOnBuild)' == 'true' AND Exists('$(TailwindInputPath)')">
+    <Message Text="Running Tailwind build for project: $(MSBuildProjectName)" Importance="high" />
+    <MakeDir Directories="$(TailwindOutputDir)" Condition="'$(TailwindOutputDir)' != '' AND !Exists('$(TailwindOutputDir)')" />
+    <Exec Command="$(TailwindBuildCommand)" WorkingDirectory="$(TailwindWorkingDirectory)" />
+  </Target>
+
+  <Target
+    Name="TailwindWatch"
+    DependsOnTargets="TailwindDownload"
+    Condition="Exists('$(TailwindInputPath)')">
+    <Message Text="Running Tailwind watch for project: $(MSBuildProjectName)" Importance="high" />
+    <Exec Command="$(TailwindWatchCommand)" WorkingDirectory="$(TailwindWorkingDirectory)" />
+  </Target>
+
+</Project>
