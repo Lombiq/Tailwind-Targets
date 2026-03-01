@@ -50,7 +50,7 @@ Linux/macOS they use `curl`. You can override the download command with `Tailwin
 
 Run Tailwind in watch mode with:
 
-```
+```bash
 dotnet build -t:TailwindWatch
 ```
 
