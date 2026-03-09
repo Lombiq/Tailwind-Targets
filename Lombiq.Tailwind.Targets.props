@@ -8,8 +8,7 @@
     <TailwindOutput Condition="'$(TailwindOutput)' == '' AND '$(Configuration)' == 'Release'">wwwroot/css/site.min.css</TailwindOutput>
     <TailwindOutput Condition="'$(TailwindOutput)' == ''">wwwroot/css/site.css</TailwindOutput>
 
-    <TailwindMinify Condition="'$(TailwindMinify)' == '' AND '$(Configuration)' == 'Release'">true</TailwindMinify>
-    <TailwindMinify Condition="'$(TailwindMinify)' == '' AND '$(Configuration)' != 'Release'">false</TailwindMinify>
+    <TailwindMinify Condition="'$(TailwindMinify)' == ''">false</TailwindMinify>
 
     <TailwindConfigFile Condition="'$(TailwindConfigFile)' == ''">tailwind.config.js</TailwindConfigFile>
 

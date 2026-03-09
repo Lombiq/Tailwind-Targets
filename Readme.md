@@ -32,7 +32,7 @@ Linux/macOS they use `curl`. You can override the download command with `Tailwin
 
 - `TailwindRunOnBuild` (default: `true`) - disables the build target when set to `false`.
 - `TailwindInput` / `TailwindOutput` - input and output CSS paths (relative to project).
-- `TailwindMinify` - set to `true` to add `--minify` (defaults to `true` in Release, `false` otherwise).
+- `TailwindMinify` - set to `true` to add `--minify` (defaults to `false`).
 - `TailwindContentGlobs` - overrides the default glob list used for incremental build detection.
 - `TailwindContentGlobsAdditional` - appends to the default glob list without replacing it.
 - `TailwindCliVersion` - pins the Tailwind CLI version (e.g. `v4.1.18`).
