@@ -24,9 +24,9 @@ are pointing to the _Lombiq.Tailwind.Targets.props_ and _Lombiq.Tailwind.Targets
 ```
 
 Create a Tailwind input CSS file (for Tailwind v4 this typically contains `@import "tailwindcss";` and `@source`
-directives). By default the CLI is downloaded from GitHub releases. On Windows the targets use PowerShell, on
+directives). By default the CLI is downloaded from GitHub releases. On Windows, the targets use PowerShell, on
 Linux/macOS they use `curl`. You can override the download command with `TailwindDownloadCommand` or disable it and point
-`TailwindCliPath` at a pre-downloaded binary.
+`TailwindCliPath` to a pre-downloaded binary.
 
 ## Useful properties
 
@@ -51,7 +51,7 @@ Linux/macOS they use `curl`. You can override the download command with `Tailwin
 Run Tailwind in watch mode with:
 
 ```bash
-dotnet build -t:TailwindWatch
+dotnet build --target:TailwindWatch
 ```
 
 By default the targets use `--watch=always` so the process keeps running even when stdin is closed. Add
