@@ -4,4 +4,19 @@
         'github>Lombiq/renovate-config:default-dotnet.json5',
         'github>Lombiq/Open-Source-Orchard-Core-Extensions:renovate-osoce-submodule.json5',
     ],
+    customManagers: [
+        {
+            // Lombiq.Tailwind.Targets pins the upstream Tailwind CLI version in an MSBuild property.
+            customType: 'regex',
+            managerFilePatterns: [
+                '/(^|/)Lombiq\\.Tailwind\\.Targets\\.props$/',
+            ],
+            depNameTemplate: 'tailwindlabs/tailwindcss',
+            matchStrings: [
+                "<TailwindCliVersion Condition=\"'\\$\\(TailwindCliVersion\\)' == ''\">(?<currentValue>[^<]+)</TailwindCliVersion>",
+            ],
+            datasourceTemplate: 'github-releases',
+            versioningTemplate: 'semver',
+        },
+    ],
 }
