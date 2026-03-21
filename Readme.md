@@ -30,19 +30,32 @@ Linux/macOS they use `curl`. You can override the download command with `Tailwin
 
 ## Useful properties
 
-- `TailwindRunOnBuild` (default: `true`) - disables the build target when set to `false`.
-- `TailwindInput` / `TailwindOutput` - input and output CSS paths (relative to project).
+For most projects, the defaults should be sufficient. In particular, if your Tailwind input CSS lives at
+_Assets/Styles/site.css_, the generated output should go to _wwwroot/css/site.css_, and the relevant templates/scripts
+are in the same project, then you likely don't need to set any of the properties below.
+
+The following properties are the ones most commonly customized:
+
+- `TailwindInput` / `TailwindOutput` - input and output CSS paths (relative to project). Set these if you don't use the
+  default _Assets/Styles/site.css_ to _wwwroot/css/site.css_ layout.
 - `TailwindMinify` - set to `true` to add `--minify` (defaults to `false`).
-- `TailwindContentGlobs` - overrides the default glob list used for incremental build detection.
-- `TailwindContentGlobsAdditional` - appends to the default glob list without replacing it.
-- `TailwindCliVersion` - pins the Tailwind CLI version (e.g. `v4.1.18`).
+- `TailwindContentGlobs` - overrides the default glob list used for incremental build detection. Set this if the
+  relevant files are not covered by the defaults, or if you want full control over the inputs.
+- `TailwindContentGlobsAdditional` - appends to the default glob list without replacing it. This is the safer option if
+  you just need to include a few additional files or folders.
+
+The following properties are for advanced or environment-specific scenarios:
+
+- `TailwindRunOnBuild` (default: `true`) - disables the build target when set to `false`.
+- `TailwindCliVersion` - pins the Tailwind CLI version (e.g. `v4.2.1`).
 - `TailwindCliOs` / `TailwindCliArch` - override the detected OS and architecture for CLI download.
 - `TailwindCliDownloadUrl` - override the download URL if you mirror the CLI.
 - `TailwindCliCacheDirectory` - where the CLI is cached (default: `obj/tailwind`).
 - `TailwindCliPath` - explicit CLI path (skip downloading when set alongside `TailwindCliDownload=false`).
 - `TailwindCliDownload` - set to `false` to disable downloading (use a pre-downloaded CLI in that case).
 - `TailwindDownloadCommand` - override the download command (useful for restricted environments).
-- `TailwindWatchMode` - defaults to `always` to keep watch alive when stdin is closed.
+- `TailwindWatchMode` - defaults to `always` so `dotnet build -t:TailwindWatch` keeps the Tailwind watcher running
+  until you stop it with `Ctrl+C` or close the terminal window.
 - `TailwindAdditionalArguments` - passed to the Tailwind CLI verbatim.
 - `TailwindWorkingDirectory` - working directory for the Tailwind command.
 
@@ -54,16 +67,17 @@ Run Tailwind in watch mode with:
 dotnet build --target:TailwindWatch
 ```
 
-By default the targets use `--watch=always` so the process keeps running even when stdin is closed. Add
-`TailwindWatchPoll=true` if your file system events are unreliable. Set `TailwindWatchMode` to an empty string if you want
-plain `--watch`.
+By default the targets use `--watch=always`, so `dotnet build -t:TailwindWatch` does not exit immediately after the
+initial build work is done. Instead, Tailwind keeps watching for changes until you stop the command with `Ctrl+C` or
+close the terminal window. Add `TailwindWatchPoll=true` if your file system events are unreliable. Set
+`TailwindWatchMode` to an empty string if you want plain `--watch` instead.
 
 ## Notes on scan scope
 
-Only include local sources in `TailwindContentGlobs` or `TailwindContentFiles`. These inputs are used for MSBuild
-incremental build detection; Tailwind itself scans based on your `@source` directives or `tailwind.config.js`. For
-reusable modules or base themes that ship via NuGet, precompile their CSS and include it directly instead of scanning
-their templates at build time.
+Only include local sources in `TailwindContentGlobs` or `TailwindContentFiles`. These inputs are used by MSBuild only
+for incremental build detection, that is, to decide when the Tailwind build should rerun. Tailwind's actual class
+detection is driven by your `@source` directives or `tailwind.config.js`. For reusable modules or base themes that ship
+via NuGet, prefer shipping precompiled CSS instead of expecting consuming apps to scan their templates.
 
 ## Contributing and support
 
