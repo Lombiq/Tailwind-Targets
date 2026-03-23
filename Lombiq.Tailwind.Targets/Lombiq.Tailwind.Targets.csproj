@@ -14,7 +14,7 @@
     <PackageIcon>NuGetIcon.png</PackageIcon>
     <PackageTags>Lombiq;Tailwind;MSBuild;Orchard Core</PackageTags>
     <RepositoryUrl>https://github.com/Lombiq/Tailwind-Targets</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Lombiq/Tailwind-Targets</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Lombiq/Tailwind-Targets/blob/dev/Lombiq.Tailwind.Targets/Readme.md</PackageProjectUrl>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
   </PropertyGroup>
 

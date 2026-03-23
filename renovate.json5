@@ -9,7 +9,7 @@
             // Lombiq.Tailwind.Targets pins the upstream Tailwind CLI version in an MSBuild property.
             customType: 'regex',
             managerFilePatterns: [
-                '/(^|/)Lombiq\\.Tailwind\\.Targets\\.props$/',
+                '/(^|/)Lombiq\\.Tailwind\\.Targets/Lombiq\\.Tailwind\\.Targets\\.props$/',
             ],
             depNameTemplate: 'tailwindlabs/tailwindcss',
             matchStrings: [

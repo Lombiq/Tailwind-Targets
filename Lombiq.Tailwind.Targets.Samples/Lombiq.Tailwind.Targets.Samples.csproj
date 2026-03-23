@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\Lombiq.Tailwind.Targets\Lombiq.Tailwind.Targets.props" Condition="'$(UseTailwindTargetsNuGetPackage)' != 'true'" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <UseTailwindTargetsNuGetPackage Condition="'$(UseTailwindTargetsNuGetPackage)' == ''">false</UseTailwindTargetsNuGetPackage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Lombiq Tailwind MSBuild Targets - Samples</Title>
+    <Authors>Lombiq Technologies</Authors>
+    <Copyright>Copyright © 2026, Lombiq Technologies Ltd.</Copyright>
+    <Description>Lombiq Tailwind MSBuild Targets - Samples: A minimal Orchard Core theme that demonstrates using Lombiq Tailwind MSBuild Targets.</Description>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
+    <PackageTags>OrchardCore;Lombiq;AspNetCore;Tailwind;Theme</PackageTags>
+    <RepositoryUrl>https://github.com/Lombiq/Tailwind-Targets</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Lombiq/Tailwind-Targets/tree/dev/Lombiq.Tailwind.Targets.Samples</PackageProjectUrl>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Readme.md" />
+    <None Include="..\Lombiq.Tailwind.Targets\NuGetIcon.png" Link="NuGetIcon.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="2.1.0" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="2.1.0" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="2.1.0" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseTailwindTargetsNuGetPackage)' == 'true'">
+    <PackageReference Include="Lombiq.Tailwind.Targets" Version="$(Version)" />
+  </ItemGroup>
+
+  <Import Project="..\Lombiq.Tailwind.Targets\Lombiq.Tailwind.Targets.targets" Condition="'$(UseTailwindTargetsNuGetPackage)' != 'true'" />
+
+</Project>
