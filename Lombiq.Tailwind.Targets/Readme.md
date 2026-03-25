@@ -38,13 +38,10 @@ are in the same project, then you likely don't need to set any of the properties
 
 The following properties are the ones most commonly customized:
 
-- `TailwindInput` / `TailwindOutput` - input and output CSS paths (relative to project). Set these if you don't use the
-  default _Assets/Styles/site.css_ to _wwwroot/css/site.css_ layout.
+- `TailwindInput` / `TailwindOutput` - input and output CSS paths (relative to project). Set these if you don't use the default _Assets/Styles/site.css_ to _wwwroot/css/site.css_ layout.
 - `TailwindMinify` - set to `true` to add `--minify` (defaults to `false`).
-- `TailwindContentGlobs` - overrides the default glob list used for incremental build detection. Set this if the
-  relevant files are not covered by the defaults, or if you want full control over the inputs.
-- `TailwindContentGlobsAdditional` - appends to the default glob list without replacing it. This is the safer option if
-  you just need to include a few additional files or folders.
+- `TailwindContentGlobs` - overrides the default glob list used for incremental build detection. Set this if the relevant files are not covered by the defaults, or if you want full control over the inputs.
+- `TailwindContentGlobsAdditional` - appends to the default glob list without replacing it. This is the safer option if you just need to include a few additional files or folders.
 
 The following properties are for advanced or environment-specific scenarios:
 
@@ -56,8 +53,7 @@ The following properties are for advanced or environment-specific scenarios:
 - `TailwindCliPath` - explicit CLI path (skip downloading when set alongside `TailwindCliDownload=false`).
 - `TailwindCliDownload` - set to `false` to disable downloading (use a pre-downloaded CLI in that case).
 - `TailwindDownloadCommand` - override the download command (useful for restricted environments).
-- `TailwindWatchMode` - defaults to `always` so `dotnet build -t:TailwindWatch` keeps the Tailwind watcher running
-  until you stop it with `Ctrl+C` or close the terminal window.
+- `TailwindWatchMode` - defaults to `always` so `dotnet build -t:TailwindWatch` keeps the Tailwind watcher running until you stop it with `Ctrl+C` or close the terminal window.
 - `TailwindAdditionalArguments` - passed to the Tailwind CLI verbatim.
 - `TailwindWorkingDirectory` - working directory for the Tailwind command.
 
