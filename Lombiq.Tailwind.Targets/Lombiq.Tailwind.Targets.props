@@ -5,7 +5,6 @@
     <TailwindWorkingDirectory Condition="'$(TailwindWorkingDirectory)' == ''">$(MSBuildProjectDirectory)</TailwindWorkingDirectory>
 
     <TailwindInput Condition="'$(TailwindInput)' == ''">Assets/Styles/site.css</TailwindInput>
-    <TailwindOutput Condition="'$(TailwindOutput)' == '' AND '$(Configuration)' == 'Release'">wwwroot/css/site.min.css</TailwindOutput>
     <TailwindOutput Condition="'$(TailwindOutput)' == ''">wwwroot/css/site.css</TailwindOutput>
 
     <TailwindMinify Condition="'$(TailwindMinify)' == ''">false</TailwindMinify>
