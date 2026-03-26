@@ -53,6 +53,7 @@
 
     <TailwindOutputPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPath>
     <TailwindOutputPath Condition="'$(TailwindOutputPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPath>
+    <TailwindOutputProjectRelativePath>$([System.IO.Path]::GetRelativePath('$(MSBuildProjectDirectory)', '$(TailwindOutputPath)'))</TailwindOutputProjectRelativePath>
 
     <TailwindConfigPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindConfigFile)'))">$(TailwindConfigFile)</TailwindConfigPath>
     <TailwindConfigPath Condition="'$(TailwindConfigPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindConfigFile)'))</TailwindConfigPath>
@@ -76,6 +77,16 @@
   <ItemGroup Condition="'@(TailwindContentFiles)' == ''">
     <TailwindContentFiles Include="$(TailwindContentGlobs)" />
     <TailwindContentFiles Include="$(TailwindContentGlobsAdditional)" Condition="'$(TailwindContentGlobsAdditional)' != ''" />
+  </ItemGroup>
+
+  <!-- Needed for Azure deployment -->
+  <ItemGroup
+    Condition="$([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot\\')) OR $([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot/'))">
+    <Content Include="$(TailwindOutputProjectRelativePath)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <EmbeddedResource Include="$(TailwindOutputProjectRelativePath)" />
   </ItemGroup>
 
 </Project>
