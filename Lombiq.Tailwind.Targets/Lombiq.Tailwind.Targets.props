@@ -48,11 +48,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TailwindInputPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindInput)'))">$(TailwindInput)</TailwindInputPath>
-    <TailwindInputPath Condition="'$(TailwindInputPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindInput)'))</TailwindInputPath>
+    <TailwindInputPathDefault Condition="$([System.IO.Path]::IsPathRooted('$(TailwindInput)'))">$(TailwindInput)</TailwindInputPathDefault>
+    <TailwindInputPathDefault Condition="'$(TailwindInputPathDefault)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindInput)'))</TailwindInputPathDefault>
+    <TailwindInputPath Condition="'$(TailwindInputPath)' == ''">$(TailwindInputPathDefault)</TailwindInputPath>
 
-    <TailwindOutputPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPath>
-    <TailwindOutputPath Condition="'$(TailwindOutputPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPath>
+    <TailwindOutputPathDefault Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPathDefault>
+    <TailwindOutputPathDefault Condition="'$(TailwindOutputPathDefault)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPathDefault>
+    <TailwindOutputPath Condition="'$(TailwindOutputPath)' == ''">$(TailwindOutputPathDefault)</TailwindOutputPath>
     <TailwindOutputProjectRelativePath>$([System.IO.Path]::GetRelativePath('$(MSBuildProjectDirectory)', '$(TailwindOutputPath)'))</TailwindOutputProjectRelativePath>
 
     <TailwindConfigPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindConfigFile)'))">$(TailwindConfigFile)</TailwindConfigPath>
