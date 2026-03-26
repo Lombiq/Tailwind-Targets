@@ -70,6 +70,24 @@
     <Exec Command="$(TailwindBuildCommand)" WorkingDirectory="$(TailwindWorkingDirectory)" />
   </Target>
 
+  <!-- Needed for Azure deployment and Orchard theme asset embedding -->
+  <Target
+    Name="TailwindRegisterOutput"
+    DependsOnTargets="TailwindBuild"
+    BeforeTargets="EmbeddModuleAssets;OrchardCoreEmbedModuleAssets;Compile"
+    Condition="'$(TailwindRunOnBuild)' == 'true' AND Exists('$(TailwindOutputPath)') AND ($([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot\\')) OR $([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot/')))">
+    <ItemGroup>
+      <Content Remove="$(TailwindOutputProjectRelativePath)" />
+      <Content Include="$(TailwindOutputProjectRelativePath)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+
+      <EmbeddedResource Remove="$(TailwindOutputProjectRelativePath)" />
+      <EmbeddedResource Include="$(TailwindOutputProjectRelativePath)" />
+    </ItemGroup>
+  </Target>
+
   <Target
     Name="TailwindWatch"
     DependsOnTargets="TailwindDownload"

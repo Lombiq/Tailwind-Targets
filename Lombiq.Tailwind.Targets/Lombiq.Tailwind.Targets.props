@@ -81,14 +81,4 @@
     <TailwindContentFiles Include="$(TailwindContentGlobsAdditional)" Condition="'$(TailwindContentGlobsAdditional)' != ''" />
   </ItemGroup>
 
-  <!-- Needed for Azure deployment -->
-  <ItemGroup
-    Condition="$([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot\\')) OR $([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot/'))">
-    <Content Include="$(TailwindOutputProjectRelativePath)">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <EmbeddedResource Include="$(TailwindOutputProjectRelativePath)" />
-  </ItemGroup>
-
 </Project>
