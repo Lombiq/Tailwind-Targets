@@ -1,3 +1,3 @@
-@import "tailwindcss";
+@import "tailwindcss"; /* stylelint-disable-line import-notation */
 
-@source "../../Views/**/*.liquid";
+@source "../../Views/**/*.liquid"; /* stylelint-disable-line at-rule-no-unknown */
