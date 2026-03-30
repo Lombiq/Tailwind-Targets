@@ -55,7 +55,11 @@
     <TailwindOutputPathDefault Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPathDefault>
     <TailwindOutputPathDefault Condition="'$(TailwindOutputPathDefault)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPathDefault>
     <TailwindOutputPath Condition="'$(TailwindOutputPath)' == ''">$(TailwindOutputPathDefault)</TailwindOutputPath>
-    <TailwindOutputProjectRelativePath>$([System.IO.Path]::GetRelativePath('$(MSBuildProjectDirectory)', '$(TailwindOutputPath)'))</TailwindOutputProjectRelativePath>
+    <TailwindOutputProjectRelativePath Condition="'$(TailwindOutputProjectRelativePath)' == ''">$(TailwindOutput)</TailwindOutputProjectRelativePath>
+    <TailwindOutputProjectRelativePath
+      Condition="$([System.String]::Copy('$(TailwindOutputPath)').StartsWith('$(MSBuildProjectDirectory)\\'))">$([System.String]::Copy('$(TailwindOutputPath)').Replace('$(MSBuildProjectDirectory)\\', ''))</TailwindOutputProjectRelativePath>
+    <TailwindOutputProjectRelativePath
+      Condition="$([System.String]::Copy('$(TailwindOutputPath)').StartsWith('$(MSBuildProjectDirectory)/'))">$([System.String]::Copy('$(TailwindOutputPath)').Replace('$(MSBuildProjectDirectory)/', ''))</TailwindOutputProjectRelativePath>
 
     <TailwindConfigPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindConfigFile)'))">$(TailwindConfigFile)</TailwindConfigPath>
     <TailwindConfigPath Condition="'$(TailwindConfigPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindConfigFile)'))</TailwindConfigPath>
