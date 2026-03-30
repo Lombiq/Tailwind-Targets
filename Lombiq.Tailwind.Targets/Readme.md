@@ -67,8 +67,12 @@ dotnet build --target:TailwindWatch
 
 By default the targets use `--watch=always`, so `dotnet build -t:TailwindWatch` does not exit immediately after the
 initial build work is done. Instead, Tailwind keeps watching for changes until you stop the command with `Ctrl+C` or
-close the terminal window. Add `TailwindWatchPoll=true` if your file system events are unreliable. Set
-`TailwindWatchMode` to an empty string if you want plain `--watch` instead.
+close the terminal window. Set the `TailwindWatchPoll` property to `true` if your file system events are unreliable.
+Set the `TailwindWatchMode` property to an empty string if you want plain `--watch` instead. For example:
+
+```bash
+dotnet build -t:TailwindWatch -p:TailwindWatchPoll=true -p:TailwindWatchMode=
+```
 
 ## Notes on scan scope
 
