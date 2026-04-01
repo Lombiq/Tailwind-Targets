@@ -75,16 +75,18 @@
     Name="TailwindRegisterOutput"
     DependsOnTargets="TailwindBuild"
     BeforeTargets="EmbeddModuleAssets;OrchardCoreEmbedModuleAssets;Compile"
-    Condition="'$(TailwindRunOnBuild)' == 'true' AND Exists('$(TailwindOutputPath)') AND ($([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot\\')) OR $([System.String]::Copy('$(TailwindOutputProjectRelativePath)').StartsWith('wwwroot/')))">
+    Condition="'$(TailwindRunOnBuild)' == 'true' AND Exists('$(TailwindOutputPath)') AND ($([System.String]::Copy('$(TailwindOutputProjectRelativePathWindows)').StartsWith('wwwroot\\')) OR $([System.String]::Copy('$(TailwindOutputProjectRelativePathUnix)').StartsWith('wwwroot/')))">
     <ItemGroup>
-      <Content Remove="$(TailwindOutputProjectRelativePath)" />
-      <Content Include="$(TailwindOutputProjectRelativePath)">
+      <Content Remove="$(TailwindOutputProjectRelativePathWindows)" />
+      <Content Remove="$(TailwindOutputProjectRelativePathUnix)" />
+      <Content Include="$(TailwindOutputProjectRelativePathWindows)">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
 
-      <EmbeddedResource Remove="$(TailwindOutputProjectRelativePath)" />
-      <EmbeddedResource Include="$(TailwindOutputProjectRelativePath)" />
+      <EmbeddedResource Remove="$(TailwindOutputProjectRelativePathWindows)" />
+      <EmbeddedResource Remove="$(TailwindOutputProjectRelativePathUnix)" />
+      <EmbeddedResource Include="$(TailwindOutputProjectRelativePathWindows)" />
     </ItemGroup>
   </Target>
 

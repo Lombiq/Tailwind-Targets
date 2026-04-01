@@ -60,6 +60,8 @@
       Condition="$([System.String]::Copy('$(TailwindOutputPath)').StartsWith('$(MSBuildProjectDirectory)\\'))">$([System.String]::Copy('$(TailwindOutputPath)').Replace('$(MSBuildProjectDirectory)\\', ''))</TailwindOutputProjectRelativePath>
     <TailwindOutputProjectRelativePath
       Condition="$([System.String]::Copy('$(TailwindOutputPath)').StartsWith('$(MSBuildProjectDirectory)/'))">$([System.String]::Copy('$(TailwindOutputPath)').Replace('$(MSBuildProjectDirectory)/', ''))</TailwindOutputProjectRelativePath>
+    <TailwindOutputProjectRelativePathWindows>$([System.String]::Copy('$(TailwindOutputProjectRelativePath)').Replace('/', '\'))</TailwindOutputProjectRelativePathWindows>
+    <TailwindOutputProjectRelativePathUnix>$([System.String]::Copy('$(TailwindOutputProjectRelativePath)').Replace('\', '/'))</TailwindOutputProjectRelativePathUnix>
 
     <TailwindConfigPath Condition="$([System.IO.Path]::IsPathRooted('$(TailwindConfigFile)'))">$(TailwindConfigFile)</TailwindConfigPath>
     <TailwindConfigPath Condition="'$(TailwindConfigPath)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindConfigFile)'))</TailwindConfigPath>
