@@ -5,5 +5,5 @@ using OrchardCore.DisplayManagement.Manifest;
     Author = "Lombiq Technologies",
     Website = "https://github.com/Lombiq/Tailwind-Targets",
     Version = "0.0.1",
-    Description = "A minimal theme that demonstrates Lombiq Tailwind MSBuild Targets."
+    Description = "A minimal theme that demonstrates using Lombiq Tailwind MSBuild Targets."
 )]

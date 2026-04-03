@@ -1,6 +1,8 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lombiq.Tailwind.Targets.Tests;
 
@@ -12,8 +14,8 @@ internal static class TailwindTargetsSample
     public static bool GeneratedCssExists() =>
         File.Exists(GeneratedCssPath);
 
-    public static string ReadGeneratedCss() =>
-        File.ReadAllText(GeneratedCssPath);
+    public static Task<string> ReadGeneratedCssAsync(CancellationToken cancellationToken) =>
+        File.ReadAllTextAsync(GeneratedCssPath, cancellationToken);
 
     private static string GetSampleProjectDirectory() =>
         Path.GetFullPath(Path.Combine(

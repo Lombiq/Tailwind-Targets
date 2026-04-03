@@ -1,4 +1,5 @@
 using Shouldly;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Lombiq.Tailwind.Targets.Tests.UnitTests;
@@ -10,9 +11,9 @@ public class TailwindTargetsTests
         TailwindTargetsSample.GeneratedCssExists().ShouldBeTrue();
 
     [Fact]
-    public void GeneratedCssShouldContainExpectedUtilities()
+    public async Task GeneratedCssShouldContainExpectedUtilities()
     {
-        var css = TailwindTargetsSample.ReadGeneratedCss();
+        var css = await TailwindTargetsSample.ReadGeneratedCssAsync(TestContext.Current.CancellationToken);
 
         css.ShouldContain(".min-h-screen");
         css.ShouldContain(".bg-slate-950");
