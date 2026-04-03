@@ -22,7 +22,7 @@ internal static class TailwindTargetsSample
             typeof(TailwindTargetsSample).Assembly
                 .GetCustomAttributes<AssemblyMetadataAttribute>()
                 .Single(attribute => attribute.Key == "MSBuildProjectDirectory")
-                .Value!,
+                .Value,
             "..",
             "Lombiq.Tailwind.Targets.Samples"));
 }
