@@ -78,8 +78,11 @@ dotnet build -t:TailwindWatch -p:TailwindWatchPoll=true -p:TailwindWatchMode=
 
 Only include local sources in `TailwindContentGlobs` or `TailwindContentFiles`. These inputs are used by MSBuild only
 for incremental build detection, that is, to decide when the Tailwind build should rerun. Tailwind's actual class
-detection is driven by your `@source` directives or `tailwind.config.js`. For reusable modules or base themes that ship
-via NuGet, prefer shipping precompiled CSS instead of expecting consuming apps to scan their templates.
+detection is driven by your `@source` directives or `tailwind.config.js`. By default, the targets watch Razor/Liquid/JS/TS
+files in the project and also every CSS file under the Tailwind input CSS file's directory (for example, if
+`Assets/Styles/site.css` imports `theme.css` or `components.css`, changing those files also triggers a rebuild). For
+reusable modules or base themes that ship via NuGet, prefer shipping precompiled CSS instead of expecting consuming apps
+to scan their templates.
 
 ## Contributing and support
 

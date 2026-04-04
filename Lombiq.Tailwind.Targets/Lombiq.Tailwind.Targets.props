@@ -43,6 +43,7 @@
     <TailwindWatchMode Condition="'$(TailwindWatchMode)' == ''">always</TailwindWatchMode>
 
     <TailwindContentGlobsDefault>$(MSBuildProjectDirectory)/**/*.cshtml;$(MSBuildProjectDirectory)/**/*.liquid;$(MSBuildProjectDirectory)/**/*.js;$(MSBuildProjectDirectory)/**/*.ts</TailwindContentGlobsDefault>
+    <TailwindExcludedContentGlobsDefault Condition="'$(TailwindExcludedContentGlobsDefault)' == ''">$(MSBuildProjectDirectory)/bin/**/*;$(MSBuildProjectDirectory)/obj/**/*;$(MSBuildProjectDirectory)/node_modules/**/*</TailwindExcludedContentGlobsDefault>
     <TailwindContentGlobs Condition="'$(TailwindContentGlobs)' == ''">$(TailwindContentGlobsDefault)</TailwindContentGlobs>
     <TailwindContentGlobsAdditional Condition="'$(TailwindContentGlobsAdditional)' == ''"></TailwindContentGlobsAdditional>
   </PropertyGroup>
@@ -51,6 +52,7 @@
     <TailwindInputPathDefault Condition="$([System.IO.Path]::IsPathRooted('$(TailwindInput)'))">$(TailwindInput)</TailwindInputPathDefault>
     <TailwindInputPathDefault Condition="'$(TailwindInputPathDefault)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindInput)'))</TailwindInputPathDefault>
     <TailwindInputPath Condition="'$(TailwindInputPath)' == ''">$(TailwindInputPathDefault)</TailwindInputPath>
+    <TailwindInputDirectoryPath Condition="'$(TailwindInputDirectoryPath)' == ''">$([System.IO.Path]::GetDirectoryName('$(TailwindInputPath)'))</TailwindInputDirectoryPath>
 
     <TailwindOutputPathDefault Condition="$([System.IO.Path]::IsPathRooted('$(TailwindOutput)'))">$(TailwindOutput)</TailwindOutputPathDefault>
     <TailwindOutputPathDefault Condition="'$(TailwindOutputPathDefault)' == ''">$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(TailwindOutput)'))</TailwindOutputPathDefault>
@@ -73,6 +75,7 @@
     <TailwindCliTempPath Condition="'$(TailwindCliTempPath)' == ''">$(TailwindCliPath).tmp</TailwindCliTempPath>
 
     <TailwindOutputDir>$([System.IO.Path]::GetDirectoryName('$(TailwindOutputPath)'))</TailwindOutputDir>
+    <TailwindSourceCssGlobsDefault Condition="'$(TailwindSourceCssGlobsDefault)' == '' AND '$(TailwindInputDirectoryPath)' != ''">$(TailwindInputDirectoryPath)/**/*.css</TailwindSourceCssGlobsDefault>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -83,8 +86,10 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'@(TailwindContentFiles)' == ''">
-    <TailwindContentFiles Include="$(TailwindContentGlobs)" />
-    <TailwindContentFiles Include="$(TailwindContentGlobsAdditional)" Condition="'$(TailwindContentGlobsAdditional)' != ''" />
+    <TailwindContentFiles Include="$(TailwindContentGlobs)" Exclude="$(TailwindExcludedContentGlobsDefault)" />
+    <TailwindContentFiles Include="$(TailwindContentGlobsAdditional)" Exclude="$(TailwindExcludedContentGlobsDefault)" Condition="'$(TailwindContentGlobsAdditional)' != ''" />
+    <TailwindContentFiles Include="$(TailwindSourceCssGlobsDefault)" Exclude="$(TailwindExcludedContentGlobsDefault)" Condition="'$(TailwindSourceCssGlobsDefault)' != ''" />
+    <TailwindContentFiles Remove="$(TailwindOutputPath)" Condition="'$(TailwindSourceCssGlobsDefault)' != ''" />
   </ItemGroup>
 
 </Project>
