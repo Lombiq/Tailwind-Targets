@@ -1,14 +1,20 @@
-# Lombiq <add project name here>
+# Lombiq Tailwind MSBuild Targets
+
+[![Lombiq.Tailwind.Targets NuGet](https://img.shields.io/nuget/v/Lombiq.Tailwind.Targets?label=Lombiq.Tailwind.Targets)](https://www.nuget.org/packages/Lombiq.Tailwind.Targets/)
 
 ## About
 
-Add a general overview of the project here. Keep or remove the OSOCE note below as necessary.
+Provides automatic Tailwind CSS compilation before building a .NET project.
 
 Do you want to quickly try out this project and see it in action? Check it out in our [Open-Source Orchard Core Extensions](https://github.com/Lombiq/Open-Source-Orchard-Core-Extensions) full Orchard Core solution and also see our other useful Orchard Core-related open-source projects!
 
 ## Documentation
 
-Add detailed documentation here. If it's a lot of content then create documentation pages under the *Docs* folder and link pages here.
+To learn about the packages maintained in this repository, check out their individual Readmes:
+
+- [Lombiq.Tailwind.Targets](Lombiq.Tailwind.Targets/Readme.md): MSBuild targets for automatic Tailwind CSS compilation during .NET builds.
+
+Check out the [Lombiq.Tailwind.Targets.Samples](Lombiq.Tailwind.Targets.Samples/Readme.md) project for an Orchard Core theme example.
 
 ## Contributing and support
 
