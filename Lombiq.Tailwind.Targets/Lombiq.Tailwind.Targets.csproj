@@ -1,30 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefaultItemExcludes>$(DefaultItemExcludes);.git*;node_modules/**</DefaultItemExcludes>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
+  <Import Condition="'$(NuGetBuild)' != 'true'" Project="../../../Utilities/Lombiq.MSBuild.Targets/Lombiq.MSBuild.Base.Sdk/Sdk/Import.props" />
+  <Import Condition="'$(NuGetBuild)' == 'true'" Project="Sdk.props" Sdk="Lombiq.MSBuild.Base.Sdk" Version="1.0.1-alpha.12.osoe-1208" />
+
   <PropertyGroup>
     <Title>Lombiq Tailwind MSBuild Targets</Title>
     <Authors>Lombiq Technologies</Authors>
-    <Copyright>Copyright © 2026, Lombiq Technologies Ltd.</Copyright>
-    <Description>Lombiq Tailwind MSBuild Targets: Automatically run Tailwind CSS during .NET builds without Node.js. See Readme.md for usage.</Description>
-    <PackageIcon>NuGetIcon.png</PackageIcon>
+    <CopyrightYear>2026</CopyrightYear>
+    <DescriptionBody>Automatically run Tailwind CSS during .NET builds without Node.js. See Readme.md for usage.</DescriptionBody>
     <PackageTags>Lombiq;Tailwind;MSBuild;Orchard Core</PackageTags>
     <RepositoryUrl>https://github.com/Lombiq/Tailwind-Targets</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Lombiq/Tailwind-Targets/blob/dev/Lombiq.Tailwind.Targets/Readme.md</PackageProjectUrl>
-    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Readme.md" />
-    <None Include="NuGetIcon.png" Pack="true" PackagePath="" />
     <None Include="build/**" Pack="true" PackagePath="build/" />
     <None Include="*.props" Pack="true" PackagePath="" />
     <None Include="*.targets" Pack="true" PackagePath="" />
     <None Remove="node_modules/**" />
   </ItemGroup>
 
+  <Import Condition="'$(NuGetBuild)' != 'true'" Project="../../../Utilities/Lombiq.MSBuild.Targets/Lombiq.MSBuild.Base.Sdk/Sdk/Import.targets" />
+  <Import Condition="'$(NuGetBuild)' == 'true'" Project="Sdk.targets" Sdk="Lombiq.MSBuild.Base.Sdk" Version="1.0.1-alpha.12.osoe-1208" />
 </Project>
