@@ -11,7 +11,7 @@
 
     <TailwindConfigFile Condition="'$(TailwindConfigFile)' == ''">tailwind.config.js</TailwindConfigFile>
 
-    <TailwindCliVersion Condition="'$(TailwindCliVersion)' == ''">v4.3.0</TailwindCliVersion>
+    <TailwindCliVersion Condition="'$(TailwindCliVersion)' == ''">v4.3.1</TailwindCliVersion>
     <TailwindCliVersionForDownload
       Condition="'$(TailwindCliVersionForDownload)' == '' AND $([System.String]::Copy('$(TailwindCliVersion)').StartsWith('v'))">$(TailwindCliVersion)</TailwindCliVersionForDownload>
     <TailwindCliVersionForDownload Condition="'$(TailwindCliVersionForDownload)' == ''">v$(TailwindCliVersion)</TailwindCliVersionForDownload>
