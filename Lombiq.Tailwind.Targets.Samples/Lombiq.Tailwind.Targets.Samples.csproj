@@ -1,23 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <Import Condition="'$(NuGetBuild)' != 'true'" Project="../../../Utilities/Lombiq.MSBuild.Targets/Lombiq.MSBuild.OrchardCore.Theme.Sdk/Sdk/Import.props" />
+  <Import Condition="'$(NuGetBuild)' == 'true'" Project="Sdk.props" Sdk="Lombiq.MSBuild.OrchardCore.Theme.Sdk" Version="2.0.1" />
 
   <Import Project="..\Lombiq.Tailwind.Targets\Lombiq.Tailwind.Targets.props" />
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="OrchardCore.Theme.Targets" Version="2.1.0" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="2.1.0" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="2.1.0" />
-    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.1.0" />
-  </ItemGroup>
-
   <Import Project="..\Lombiq.Tailwind.Targets\Lombiq.Tailwind.Targets.targets" />
 
+  <Import Condition="'$(NuGetBuild)' != 'true'" Project="../../../Utilities/Lombiq.MSBuild.Targets/Lombiq.MSBuild.OrchardCore.Theme.Sdk/Sdk/Import.targets" />
+  <Import Condition="'$(NuGetBuild)' == 'true'" Project="Sdk.targets" Sdk="Lombiq.MSBuild.OrchardCore.Theme.Sdk" Version="2.0.1" />
 </Project>
