@@ -13,7 +13,7 @@
     <TailwindDownloadCommand
       Condition="'$(TailwindDownloadCommand)' == '' AND '$(TailwindCliOs)' == 'windows'">powershell -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri '$(TailwindCliDownloadUrl)' -OutFile '$(TailwindCliTempPath)'"</TailwindDownloadCommand>
     <TailwindDownloadCommand
-      Condition="'$(TailwindDownloadCommand)' == ''">curl -L -o &quot;$(TailwindCliTempPath)&quot; &quot;$(TailwindCliDownloadUrl)&quot;</TailwindDownloadCommand>
+      Condition="'$(TailwindDownloadCommand)' == ''">curl --fail -L -o &quot;$(TailwindCliTempPath)&quot; &quot;$(TailwindCliDownloadUrl)&quot;</TailwindDownloadCommand>
   </PropertyGroup>
 
   <ItemGroup>
